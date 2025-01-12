@@ -8,6 +8,8 @@
 }
 
 body {
+  width: 100dvw;
+  height: 100dvh;
   color: var(--text);
   background: var(--bg);
   font-family: "zen maru gothic", sans-serif;
