@@ -8,6 +8,7 @@ export default function DataForm() {
   const [characters, setCharacters] = useState<string[]>([]);
   const [characterInput, setCharacterInput] = useState("");
   const [img, setImg] = useState("");
+  const [categories, setcategories] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     mainCharacter: "",
@@ -15,12 +16,19 @@ export default function DataForm() {
     writer: "",
     illustrator: "",
     summary: "",
+    type: "", // Q1 ラジオボタンの値
+    location: "", // Q2 ラジオボタンの値
+    mainCharacterType: "", // Q3 ラジオボタンの値
   });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleAddCharacter = () => {
@@ -36,10 +44,22 @@ export default function DataForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // category配列を作成;
+    const category = [
+      formData.type,
+      formData.location,
+      formData.mainCharacterType,
+    ].filter(Boolean); // 空の値を除外
+
+    // 画像パスを設定（未指定の場合はデフォルト値を設定）
+    const imgPath = `/img/${img || "no_image.jpg"}`;
+
     const data = {
       ...formData,
+      category, // 生成した配列をセット
       characters,
-      img,
+      img: imgPath, // 画像パスをセット
     };
 
     try {
@@ -53,6 +73,9 @@ export default function DataForm() {
         writer: "",
         illustrator: "",
         summary: "",
+        type: "",
+        location: "",
+        mainCharacterType: "",
       });
       setCharacters([]);
       setImg("");
@@ -161,69 +184,133 @@ export default function DataForm() {
               カテゴリー
             </label>
             <div className="w-2/3 flex flex-col gap-y-4">
-              <div className="flex gap-4 text-base p-2 rounded">
-                <p className="w-[14dvw] border-r pr-4">Q1：絵本のタイプ</p>
-                <div className="flex flex-wrap gap-4">
+              <div className="text-base p-2 rounded lg:flex lg:gap-4">
+                <p className="py-4 pr-4 font-bold lg:w-[14dvw]">
+                  Q1：絵本のタイプ
+                </p>
+                <div className="flex flex-wrap gap-4 ">
                   <div className="flex justify-center items-center gap-1">
                     {/* type_story */}
-                    <input type="radio" name="type" id="type_story" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_story"
+                      value="type_story"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_story">シンプルな物語</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* type_shape */}
-                    <input type="radio" name="type" id="type_shape" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_shape"
+                      value="type_shape"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_shape">えほんの形が特殊</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* type_maze */}
-                    <input type="radio" name="type" id="type_maze" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_maze"
+                      value="type_maze"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_maze">迷路の絵本</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* type_puzzle */}
-                    <input type="radio" name="type" id="type_puzzle" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_puzzle"
+                      value="type_puzzle"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_puzzle">間違い探し</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* type_cloth */}
-                    <input type="radio" name="type" id="type_cloth" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_cloth"
+                      value="type_cloth"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_cloth">布で作られた絵本</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* type_trick */}
-                    <input type="radio" name="type" id="type_trick" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_trick"
+                      value="type_trick"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_trick">仕掛け絵本</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* type_other */}
-                    <input type="radio" name="type" id="type_other" />
+                    <input
+                      type="radio"
+                      name="type"
+                      id="type_other"
+                      value="type_other"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="type_other">その他</label>
                   </div>
                 </div>
               </div>
-              <div className="flex gap-4 text-base p-2 rounded">
-                <p className="w-[14dvw] border-r pr-4">
+              <div className="text-base p-2 rounded lg:flex lg:gap-4">
+                <p className="py-4 pr-4 font-bold lg:w-[14dvw]">
                   Q2：日本作品?海外作品?
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <div className="flex justify-center items-center gap-1">
                     {/* location_japan */}
-                    <input type="radio" name="location" id="location_japan" />
+                    <input
+                      type="radio"
+                      name="location"
+                      id="location_japan"
+                      value="location_japan"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="location_japan">日本</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* location_abroad */}
-                    <input type="radio" name="location" id="location_abroad" />
+                    <input
+                      type="radio"
+                      name="location"
+                      id="location_abroad"
+                      value="location_abroad"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="location_abroad">海外</label>
                   </div>
                 </div>
               </div>
-              <div className="flex gap-4 text-base p-2 rounded">
-                <p className="w-[14dvw] border-r pr-4">Q3：主人公の分類は?</p>
+              <div className="text-base p-2 rounded lg:flex lg:gap-4">
+                <p className="py-4 pr-4 font-bold lg:w-[14dvw]">
+                  Q3：主人公の分類は?
+                </p>
                 <div className="flex flex-wrap gap-4">
                   <div className="flex justify-center items-center gap-1">
                     {/* main_human */}
-                    <input type="radio" name="main_character" id="main_human" />
+                    <input
+                      type="radio"
+                      name="main_character"
+                      id="main_human"
+                      value="main_human"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="main_human">人間</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
@@ -232,17 +319,31 @@ export default function DataForm() {
                       type="radio"
                       name="main_character"
                       id="main_animal"
+                      value="main_animal"
+                      onChange={handleRadioChange}
                     />
                     <label htmlFor="main_animal">陸の動物</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* main_sea */}
-                    <input type="radio" name="main_character" id="main_sea" />
+                    <input
+                      type="radio"
+                      name="main_character"
+                      id="main_sea"
+                      value="main_sea"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="main_sea">海の動物</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* main_sky */}
-                    <input type="radio" name="main_character" id="main_sky" />
+                    <input
+                      type="radio"
+                      name="main_character"
+                      id="main_sky"
+                      value="main_sky"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="main_sky">空の動物</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
@@ -251,17 +352,31 @@ export default function DataForm() {
                       type="radio"
                       name="main_character"
                       id="main_insect"
+                      value="main_insect"
+                      onChange={handleRadioChange}
                     />
                     <label htmlFor="main_insect">昆虫</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* main_plant */}
-                    <input type="radio" name="main_character" id="main_plant" />
+                    <input
+                      type="radio"
+                      name="main_character"
+                      id="main_plant"
+                      value="main_plant"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="main_plant">植物</label>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     {/* main_other */}
-                    <input type="radio" name="main_character" id="main_other" />
+                    <input
+                      type="radio"
+                      name="main_character"
+                      id="main_other"
+                      value="main_other"
+                      onChange={handleRadioChange}
+                    />
                     <label htmlFor="main_other">その他</label>
                   </div>
                 </div>
@@ -334,16 +449,18 @@ export default function DataForm() {
             <label htmlFor="img" className="text-base font-medium">
               画像のファイル名
             </label>
-            <div className="w-2/3 flex justify-between items-center">
+            <div className="lg:w-2/3 lg:flex lg-justify-between lg-items-center ">
               <input
                 id="img"
                 type="text"
                 value={img}
                 onChange={(e) => setImg(e.target.value)}
-                className="w-3/5 text-base p-2 rounded"
-                placeholder="例:momotaro.jpg"
+                className="lg:w-3/5 text-base p-2 rounded"
+                placeholder="例:時間無い場合はno_image.jpgで"
               />
-              <p className="text-sm">ファイルパス: /img/{img || "{img}"}</p>
+              <p className="text-sm">
+                ファイルパス: /img/{img || "no_image.jpg"}
+              </p>
             </div>
           </div>
         </div>
@@ -351,6 +468,7 @@ export default function DataForm() {
         <button
           type="submit"
           className="w-60 mt-4 mb-[4dvh] m-auto px-4 py-2 rounded-lg text-white font-bold bg-[#755D52] hover:bg-[#EB476D]"
+          onClick={handleSubmit}
         >
           登録
         </button>
