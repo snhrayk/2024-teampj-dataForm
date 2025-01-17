@@ -8,11 +8,11 @@ export default function DataForm() {
   const [characters, setCharacters] = useState<string[]>([]);
   const [characterInput, setCharacterInput] = useState("");
   const [img, setImg] = useState("");
-  const [categories, setcategories] = useState<string[]>([]);
+  // const [categories, setcategories] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     title: "",
-    mainCharacter: "",
     genre: "",
+    mainCharacter: "",
     writer: "",
     illustrator: "",
     summary: "",
@@ -90,7 +90,7 @@ export default function DataForm() {
         えほんポケット/絵本データ入力
       </h1>
       <p className="mb-8 text-sm">
-        ※わからない場合は"不明"や"わからない"と書いてください
+        ※わからない場合は&quot;不明&quot;や&quot;わからない&quot;と書いてください
       </p>
       <form className="flex flex-col gap-4">
         <div className="w-[90dvw] h-[72dvh] overflow-y-scroll flex flex-col gap-6">

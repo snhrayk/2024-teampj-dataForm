@@ -7,7 +7,7 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e: any) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // パスワードチェック（仮の例）
